@@ -191,7 +191,7 @@ const FinanceForm = () => {
                                 {...register("Transactiondate")}
 
                             />
-                            <p>{errors.Transactiondate?.message}</p>
+                            <p style={{ color: 'red' }}>{errors.Transactiondate?.message}</p>
                         </div>
                     </div>
                     <div className="form-group row">
@@ -213,7 +213,7 @@ const FinanceForm = () => {
                                     </option>
                                 ))}
                             </select>
-                            <p>{errors.monthyear?.message}</p>
+                            <p style={{ color: 'red' }}>{errors.monthyear?.message}</p>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -234,7 +234,7 @@ const FinanceForm = () => {
                                     </option>
                                 ))}
                             </select>
-                            <p>{errors.transactionType?.message}</p>
+                            <p style={{ color: 'red' }}>{errors.transactionType?.message}</p>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -255,7 +255,7 @@ const FinanceForm = () => {
                                     </option>
                                 ))}
                             </select>
-                            <p>{errors.fromAccount?.message}</p>
+                            <p style={{ color: 'red' }}>{errors.fromAccount?.message}</p>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -276,7 +276,7 @@ const FinanceForm = () => {
                                     </option>
                                 ))}
                             </select>
-                            <p>{errors.toAccount?.message}</p>
+                            <p style={{ color: 'red' }}>{errors.toAccount?.message}</p>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -291,7 +291,7 @@ const FinanceForm = () => {
                                 name="amount"
                                 {...register("amount")}
                             />
-                            <p>{errors.amount?.message}</p>
+                            <p style={{ color: 'red' }}>{errors.amount?.message}</p>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -301,8 +301,8 @@ const FinanceForm = () => {
                         <div class="col-sm-10">
                             <input type="file" class="form-control" name="image" {...register("image")} onChange={handleImageChange} />
                             {imagePreview && <div onClick={removefile}>remove</div>}
-                            {imagePreview && <img src={imagePreview} width="100px" />}
-                            {errors.image && <p>{errors.image.message}</p>}
+                            {imagePreview && <img src={imagePreview} style={{ width:"50%" }} />}
+                            {errors.image && <p style={{ color: 'red' }}>{errors.image.message}</p>}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -316,7 +316,7 @@ const FinanceForm = () => {
                                 name="notes"
                                 {...register("notes")}
                             />
-                            <p>{errors.notes?.message}</p>
+                            <p style={{ color: 'red' }}>{errors.notes?.message}</p>
                         </div>
                     </div>
                     <div class="form-group row">

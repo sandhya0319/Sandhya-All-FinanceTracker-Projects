@@ -112,13 +112,13 @@ const Table = ({ data, handleDelete }) => {
                                 <td>{row['transactionType']}</td>
                                 <td>{row['fromAccount']}</td>
                                 <td>{row['toAccount']}</td>
-                                <td>{row['amount']}</td>
+                                <td><span style={{fontfamily:"Arial"}}>&#8377; {Number(row['amount']).toLocaleString('en-IN')}</span></td>
+                                {/* <td>{row['amount']}</td> */}
                                 <td>{row['notes']}</td>
                                 <td><img src={row['image']} alt='receipt' /></td>
                                 <td>
                                     <div>
                                         <Link to={`/viewsingledata`} state={{ Data: row }}>view</Link>
-                                        {/* <Link to={`${row.id}`}>View</Link> */}
                                     </div>
                                 </td>
                                 <td>
