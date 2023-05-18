@@ -135,8 +135,6 @@ const ViewFinanceData = () => {
             </div>
         </>
 
-
-
     )
 }
 

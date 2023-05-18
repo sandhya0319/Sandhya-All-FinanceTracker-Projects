@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useParams } from "react-router-dom";
 import { monthYearOptions, transactionTypeOptions, toaccountOptions, fromaccountOptions } from '../../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTransaction,editTransaction,deleteTransaction } from '../../../redux/slices/transactionsSilce';
+import { addTransaction, editTransaction, deleteTransaction } from '../../../redux/slices/transactionsSilce';
 
 
 const schema = yup.object().shape({
@@ -126,7 +126,7 @@ const FinanceForm = () => {
 
     const onSubmit = async (data) => {
         const imgIsBase64 = typeof data.image === 'string';
-
+        console.log(data)
         if (!imgIsBase64) {
             const imgPath = await getBase64(data.image[0]);
             data.image = imgPath;
@@ -299,9 +299,9 @@ const FinanceForm = () => {
                             Receipt
                         </label>
                         <div class="col-sm-10">
-                            <input type="file" class="form-control" name="image" {...register("image")} onChange={handleImageChange} />
+                            <input type="file" class="form-control" name="image" {...register("image")} onChange={handleImageChange} style={{ display: imagePreview ? 'none' : 'block' }} />
                             {imagePreview && <div onClick={removefile}>remove</div>}
-                            {imagePreview && <img src={imagePreview} style={{ width:"50%" }} />}
+                            {imagePreview && <img src={imagePreview} style={{ width: "10%" }} />}
                             {errors.image && <p style={{ color: 'red' }}>{errors.image.message}</p>}
                         </div>
                     </div>

@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import LoginPage from "./pages/Authentication/components/LoginPage";
 import RegisterPage from "./pages/Authentication/components/RegisterPage";
 import {ProtectedRoutes,UnprotectedRoutes} from "./Services/ProtectedRoutes";
+import { ErrorBoundary } from "react-error-boundary";
 //import { Transactioncontext } from "./pages/contexts/Transactioncontext";
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
       <div className="head">
         <h1>Finance Tracker</h1>
       </div>
-     
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <BrowserRouter>
         <Routes>
           <Route element={<UnprotectedRoutes />}>
@@ -34,7 +35,7 @@ function App() {
         </Routes>
         
         </BrowserRouter>
-      
+        </ErrorBoundary>
   
   </div>
   );

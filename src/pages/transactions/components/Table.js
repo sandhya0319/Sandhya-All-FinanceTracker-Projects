@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import {AiFillEdit,AiFillDelete} from 'react-icons/ai'
+import {GrFormView} from 'react-icons/gr'
 
 const Table = ({ data, handleDelete }) => {
     const [currentPageData, setCurrentPageData] = useState([]);
@@ -118,18 +120,18 @@ const Table = ({ data, handleDelete }) => {
                                 <td><img src={row['image']} alt='receipt' /></td>
                                 <td>
                                     <div>
-                                        <Link to={`/viewsingledata`} state={{ Data: row }}>view</Link>
+                                        <Link to={`/viewsingledata`} state={{ Data: row }}><GrFormView/></Link>
                                     </div>
                                 </td>
                                 <td>
                                     <div>
-                                        <Link to={`/form/${row['id']}`}>Edit</Link>
+                                        <Link to={`/form/${row['id']}`}><AiFillEdit/></Link>
                                     </div>
                                 </td>
                                 <td>
                                     <div>
                                         <button className="btn btn-danger" onClick={() => handleDelete(row['id'])}>
-                                            Delete
+                                        <AiFillDelete/>
                                         </button>
                                     </div>
                                 </td>
