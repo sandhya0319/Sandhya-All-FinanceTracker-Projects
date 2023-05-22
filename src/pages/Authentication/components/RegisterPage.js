@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { addUsers } from '../../../redux/slices/usersSlice';
 import { Link } from 'react-router-dom';
+import { InputFields } from '../../../components/InputFields';
 
 
 const schema=yup.object().shape({
@@ -51,27 +52,36 @@ const RegisterPage = () => {
     <div className='container'>
       <h1>Register</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Username</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name="username" {...register("username")}  />
-            <p>{errors.username?.message}</p>
+         <div>
+            <InputFields
+              type="text"
+              placeholder="username"
+              name="username"
+              register={register}
+              error={errors.username}
+              label="username"
+            />
           </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Email</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" name="email" {...register("email")}  />
-            <p>{errors.email?.message}</p>
+          <div>
+            <InputFields
+              type="email"
+              placeholder="email"
+              name="email"
+              register={register}
+              error={errors.email}
+              label="email"
+            />
           </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Password</label>
-          <div class="col-sm-10">
-            <input type="password" class="form-control" name="password" {...register("password")}  />
-            <p>{errors.password?.message}</p>
+          <div>
+            <InputFields
+              type="password"
+              placeholder="password"
+              name="password"
+              register={register}
+              error={errors.password}
+              label="password"
+            />
           </div>
-        </div>
         <div class="form-group row">
           <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Sign up</button>

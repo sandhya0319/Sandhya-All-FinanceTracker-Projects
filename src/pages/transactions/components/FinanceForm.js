@@ -212,7 +212,6 @@ const FinanceForm = () => {
           <div>
             <InputFields
               type="date"
-              className="form-control"
               placeholder="Transactiondate"
               name="Transactiondate"
               register={register}
@@ -265,7 +264,6 @@ const FinanceForm = () => {
           <div>
             <InputFields
               type="number"
-              class="form-control"
               placeholder="Amount"
               name="amount"
               register={register}
@@ -297,7 +295,6 @@ const FinanceForm = () => {
           </div>
           <div>
             <InputFields
-              class="form-control"
               placeholder="Notes"
               name="notes"
               register={register}

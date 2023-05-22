@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { Cookies, useCookies } from 'react-cookie';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUsers } from '../../../redux/slices/usersSlice';
-
+import { InputFields } from '../../../components/InputFields';
 
 
 const schema=yup.object().shape({
@@ -55,20 +55,27 @@ const LoginPage = () => {
     <div className='container'>
       <h1>Login</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Email</label>
-          <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" {...register("email")} />
-            <p>{errors.email?.message}</p>
+       
+      <div>
+            <InputFields
+              type="email"
+              placeholder="email"
+              name="email"
+              register={register}
+              error={errors.email}
+              label="email"
+            />
           </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Password</label>
-          <div class="col-sm-10">
-            <input type="password" class="form-control" name="password" {...register("password")} />
-            <p>{errors.password?.message}</p>
+          <div>
+            <InputFields
+              type="password"
+              placeholder="password"
+              name="password"
+              register={register}
+              error={errors.password}
+              label="password"
+            />
           </div>
-        </div>
         <div class="form-group row">
           <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Sign in</button>
