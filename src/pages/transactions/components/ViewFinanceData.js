@@ -11,6 +11,9 @@ import { Cookies, useCookies } from 'react-cookie';
 const ViewFinanceData = () => {
 
    const transactionvalue = useSelector((state) => state.transaction.value);
+   const [grouped, setGrouped] = useState({});
+   const [selected, setselected] = useState(null);
+   const [mainData, setMaindata] = useState([]);
 
    
 
@@ -61,15 +64,13 @@ const ViewFinanceData = () => {
         
     };
 
-    const [mainData, setMaindata] = useState([]);
-
+    
     useEffect(() => {
         setMaindata(transactionvalue)
     }, [transactionvalue])
 
 
-    const [grouped, setGrouped] = useState({});
-    const [selected, setselected] = useState(null);
+  
 
     const handleGroupBy = (selectedValues) => {
         if (!selectedValues) {
