@@ -3,34 +3,37 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom'
-//import { useSelector, useDispatch } from 'react-redux';
-//import { RootState } from '../../../redux/store';
 import { addUsers } from '../../../redux/slices/usersSlice';
-import { useAppDispatch,useAppSelector } from '../../../redux/hooks';
+import { useSelector,useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-//import { RootState } from '../../../redux/store';
+import { RootState } from '../../../redux/store';
+import { UsersInterface } from '../../../model';
+import { InputFields } from '../../../components/InputFields';
 
-interface TotalUsers{
-  username:string;
-  email:string;
-  password:string;
-}
 
 const schema=yup.object().shape({
   username:yup.string().required("username is required"),
   email:yup.string().email().required("email is required"),
+  // .test("email", "Email already exists", function (value) {
+  //   const storedData = usersredux;
+  //   return (
+  //   storedData.filter((data) => data.email === value).length === 0 ||
+  //   !value
+  //   );
+  //   }),
   password:yup.string().required("password is required").min(4).max(8)
 });
 
 const Register:React.FC = () => {
- // const usersredux = useAppSelector((state:RootState) => state.users.value);
 
+  const usersredux = useSelector((state: RootState) => state.rootReducer.users);
+  //console.log(data);
+  
   //console.log("userssss", usersredux);
   
- const dispatch = useAppDispatch();
- console.log(dispatch,"dispatch")
+ const dispatch = useDispatch();
 
-  const [totalusers, setTotalUsers] = useState<TotalUsers>({
+  const [totalusers, setTotalUsers]= useState<any>({
     username:"",
     email:"",
     password:"",
@@ -38,16 +41,17 @@ const Register:React.FC = () => {
 
   const navigate = useNavigate();
  
-  const {register,handleSubmit,formState:{errors}} = useForm<TotalUsers>({
+  const {register,handleSubmit,formState:{errors}} = useForm<any>({
     resolver:yupResolver(schema)
 
   });
 
-  const onSubmit = (data:TotalUsers) => {
-    console.log("data");
+  const onSubmit = (data:UsersInterface) => {
+    console.log("data",data);
       const usersdata={...data};
       const existsusers = dispatch(addUsers(usersdata));
-      //setTotalUsers(existsusers);
+      //console.log("exist",existsusers);
+      setTotalUsers(existsusers);
       navigate("/login");
       
  };
@@ -56,27 +60,33 @@ const Register:React.FC = () => {
     <div className='container'>
       <h1>Register</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group row">
-          <label className="col-sm-2 col-form-label">Username</label>
-          <div className="col-sm-10">
-            <input type="text" className="form-control" {...register("username")}  />
-            <p>{errors.username?.message}</p>
+         <div>
+            <InputFields
+              type="text"
+              name="username"
+              register={register}
+              error={errors.username}
+              label="username"
+            />
           </div>
-        </div>
-        <div className="form-group row">
-          <label className="col-sm-2 col-form-label">Email</label>
-          <div className="col-sm-10">
-            <input type="text" className="form-control" {...register("email")}  />
-            <p>{errors.email?.message}</p>
+          <div>
+            <InputFields
+              type="email"
+              name="email"
+              register={register}
+              error={errors.email}
+              label="email"
+            />
           </div>
-        </div>
-        <div className="form-group row">
-          <label className="col-sm-2 col-form-label">Password</label>
-          <div className="col-sm-10">
-            <input type="password" className="form-control" {...register("password")}  />
-            <p>{errors.password?.message}</p>
+          <div>
+            <InputFields
+              type="password"
+              name="password"
+              register={register}
+              error={errors.password}
+              label="password"
+            />
           </div>
-        </div>
         <div className="form-group row">
           <div className="col-sm-10">
             <button type="submit" className="btn btn-primary">Sign up</button>

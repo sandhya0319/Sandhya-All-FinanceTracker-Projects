@@ -6,4 +6,3 @@ export const rootReducer = combineReducers({
     transactions: transactionsSlice.reducer,
     users: usersSlice.reducer,
 })
-//export type RootState = ReturnType<typeof rootReducer>

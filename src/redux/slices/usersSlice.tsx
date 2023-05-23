@@ -1,39 +1,31 @@
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
 import { DefaultUsers } from '../../utils/constants';
-// import { RootState } from "../store";
+import { UsersInterface } from "../../model";
 
-//import type { PayloadAction } from '@reduxjs/toolkit'
-
-// interface RootState {
-//   isOn: boolean
+// interface userType{
+//   username:string;
+//   email:string;
+//   password:string;
 // }
-//console.log(RootState,"rrr")
-
-interface userstype{
-  username:string;
-  email:string;
-  password:string;
+interface Initialvalues{
+value:UsersInterface[];
 }
-interface Initial{
- value:userstype[];
-} 
 
-const initialState: Initial = {
+const initialState: Initialvalues = {
   value: DefaultUsers,
 }
  export const usersSlice=createSlice({
   name:"users",
   initialState,
   reducers:{
-    addUsers:(state,action:PayloadAction<userstype>)=>{
+    addUsers:(state,action:PayloadAction<UsersInterface>)=>{
       const setusers=[...state.value,action.payload];
         state.value=setusers;
-        console.log("sett",setusers);
+        //console.log("sett",setusers);
       
     },
 
   }
  })
 export const {addUsers}=usersSlice.actions
-//export const selectUsers = (state: RootState) => state.users.value
 export default usersSlice.reducer;

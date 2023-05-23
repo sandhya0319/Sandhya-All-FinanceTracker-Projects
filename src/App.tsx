@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 //import {ProtectedRoutes,UnprotectedRoutes} from "./Services/ProtectedRoutes";
 import Register from './pages/Authentication/Components/Register';
 import Login from './pages/Authentication/Components/Login';
+import FinanceForm from './pages/transactions/components/FinanceForm';
 
 const App:React.FC=()=>{
   return (
@@ -14,8 +15,9 @@ const App:React.FC=()=>{
         <Routes>
           {/* <Route element={<UnprotectedRoutes />}> */}
             {/* <Route path="/" element={<Register />} /> */}
-            {/* <Route path="/login" element={<Login />} /> */}
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="form" element={<FinanceForm />} />
           {/* </Route> */}
         </Routes>
         </BrowserRouter>
