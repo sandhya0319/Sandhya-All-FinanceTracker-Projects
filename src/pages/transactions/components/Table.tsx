@@ -1,0 +1,166 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
+import { GrFormView } from 'react-icons/gr'
+import { TransactionTypes } from "../../../model";
+
+
+interface TableProps {
+    data: TransactionTypes[];
+    handleDelete: (id: number) => void;
+}
+
+const Table: React.FC<TableProps> = ({ data, handleDelete }) => {
+    const [currentPageData, setCurrentPageData] = useState<TransactionTypes[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [sortColumn, setSortColumn] = useState<string | null>(null);
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    const [searchText, setSearchText] = useState('');
+
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [data]);
+
+    useEffect(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        setCurrentPageData(getSortedData(data).slice(startIndex, endIndex));
+    }, [data, currentPage, itemsPerPage, sortColumn, sortDirection]);
+
+    // Handle sort
+    const handleSort = (column: string, type: string) => {
+        if (column === sortColumn) {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortColumn(column);
+            setSortDirection(type === 'string' ? 'asc' : 'desc');
+        }
+        setCurrentPage(1);
+    };
+
+    const getSortedData = (data: TransactionTypes[]) => {
+        if (!sortColumn) {
+            return data;
+        }
+
+        const sortedData = [...data];
+        sortedData.sort((a, b) => {
+            const valueA = a[sortColumn as keyof TransactionTypes] as string | number;
+            const valueB = b[sortColumn as keyof TransactionTypes] as string | number;
+            if (typeof valueA === 'string' && typeof valueB === 'string') {
+                return valueA.localeCompare(valueB);
+            }
+            return Number(a) - Number(b);
+        });
+        console.log(sortedData);
+        if (sortDirection === 'desc') {
+            sortedData.reverse();
+        }
+        return sortedData;
+    };
+
+    // Pagination
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const Pagination = () => {
+        const pages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push(
+                <button
+                    key={i}
+                    className={i === currentPage ? 'active btn btn-primary rounded-1 mx-2' : 'btn'}
+                    onClick={() => handlePageChange(i)}
+                >
+                    {i}
+                </button>
+            );
+        }
+        return pages;
+    };
+
+
+    // searching
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchText(e.target.value);
+    };
+
+    const getSearchData = (searchData: TransactionTypes) => {
+        return Object.values(searchData).some((val) =>
+            typeof val === 'string' || typeof val === 'number'
+                ? val.toString().toLowerCase().includes(searchText.toLowerCase())
+                : false
+        );
+    };
+
+    return <>
+        {
+            data.length > 0 ?
+                <>
+                    <input className="form-control mr-sm-2" type="search" placeholder="Search" onChange={handleSearch} />
+                    <table className="table container">
+                        <thead className="thead-light">
+                            <tr>
+                                <th onClick={() => handleSort("Transactiondate", 'date')}> Transaction Date</th>
+                                <th onClick={() => handleSort("monthyear", 'string')}>Month Year</th>
+                                <th onClick={() => handleSort("transactionType", 'string')}> Transaction Type</th>
+                                <th onClick={() => handleSort("fromAccount", 'string')}>From Account</th>
+                                <th onClick={() => handleSort("toAccount", 'string')}>To Account</th>
+                                <th onClick={() => handleSort("amount", 'curruncy')}>Amount</th>
+                                <th onClick={() => handleSort("notes", 'string')}>Notes</th>
+                                <th onClick={() => handleSort("receipt", 'file')}>Receipt</th>
+                                <th colSpan={3}>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentPageData.filter((searchdata) => getSearchData(searchdata)).map(row => <tr>
+                                <td>{row['Transactiondate']}</td>
+                                <td>{row['monthyear']}</td>
+                                <td>{row['transactionType']}</td>
+                                <td>{row['fromAccount']}</td>
+                                <td>{row['toAccount']}</td>
+                                <td>
+                                    <span style={{ fontFamily: 'Arial' }}>&#8377; {Number(row.amount).toLocaleString('en-IN')}</span>
+                                </td>
+                                {/* <td>{row['amount']}</td> */}
+                                <td>{row['notes']}</td>
+                                <td><img src={row['image']} alt='receipt' /></td>
+                                <td>
+                                    <div>
+                                        <Link to={`/viewsingledata`} state={{ Data: row }}><GrFormView /></Link>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <Link to={`/form/${row['id']}`}><AiFillEdit /></Link>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <button className="btn btn-danger" onClick={() => handleDelete(row['id'])}>
+                                            <AiFillDelete />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>)}
+                        </tbody>
+                    </table>
+
+                    <div className="pagination-wrapper flex text-center justify-between">
+                        <div className="pagination">
+                            {Pagination()}
+                        </div>
+                    </div>
+                </>
+                :
+                <div className='flex justify-center'><h4>No Data Found</h4></div>
+        }
+    </>
+}
+
+export default Table;

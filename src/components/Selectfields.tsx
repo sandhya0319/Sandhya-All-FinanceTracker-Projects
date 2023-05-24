@@ -14,7 +14,7 @@ export const Selectfields = ({name,register,error,label,options}:SelectTypes) =>
             <select
                 id="monthyear"
                 name={name}
-                className="form-control"
+                className="col-sm-10"
                 {...register(name)}
               >
                 {options.map((option:any) => (

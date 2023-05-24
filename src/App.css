@@ -1,4 +1,50 @@
-.App {
+/* .App {
   text-align: center;
+} */
+
+.head{
+  margin-left: 400px;
+}
+.head h1{
+  margin-left: 100px;
+}
+h1{
+  justify-content: center;
+  color: brown;
+}
+.container{
+  background-color: rgb(190, 242, 225);
+  margin-top: 20px;
+}
+.container th{
+  color: #1c0658;
+  font-size: 20px;
+}
+.container input{
+  width: 40%;
+}
+.container select{
+  width: 40%;
+}
+.container textarea{
+  width: 40%;
+}
+img{
+  width: 30%;
+}
+.ser select{
+  width: 40%;
+  background-color:  #1c0658;;
+  color: white;
+  margin-bottom: 30px;
+  margin-left: 400px;
+}
+.navitems{
+  margin-left: 100px;
+
+}
+.search{
+  margin-left: 400px;
+  color: brown;
 }
 

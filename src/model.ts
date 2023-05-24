@@ -8,7 +8,7 @@ export interface UsersInterface{
 export interface TransactionTypes{
     notes: string;
     image:string;
-    amount: number;
+    amount: number|string;
     toAccount: string;
     fromAccount: string;
     transactionType: string;

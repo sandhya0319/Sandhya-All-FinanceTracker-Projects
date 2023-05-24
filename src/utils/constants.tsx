@@ -42,7 +42,7 @@ export const toaccountOptions = [
   { label: "Big Block", value: "big-block" },
 ];
 
-export const DefaultJSON:TransactionTypes[] = [
+export const DefaultJSON: TransactionTypes[] = [
   {
     notes: "defrwseftwserf",
     image:
@@ -117,7 +117,7 @@ export const DefaultJSON:TransactionTypes[] = [
   },
 ];
 
-export const DefaultUsers:UsersInterface[] = [
-  {username:"sandhya",email:"kanaujiasandhya03@gmail.com",password:"1234"},
-    {username:"shreya",email:"shreya@gmail.com",password:"1234"}
-  ];
+export const DefaultUsers: UsersInterface[] = [
+  { username: "sandhya", email: "kanaujiasandhya03@gmail.com", password: "1234" },
+  { username: "shreya", email: "shreya@gmail.com", password: "1234" }
+];
