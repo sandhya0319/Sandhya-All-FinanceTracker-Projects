@@ -12,7 +12,6 @@ export const Selectfields = ({name,register,error,label,options}:SelectTypes) =>
       <div className="form-group row">  
             <label className="col-sm-2 col-form-label">{label} </label>
             <select
-                id="monthyear"
                 name={name}
                 className="col-sm-10"
                 {...register(name)}

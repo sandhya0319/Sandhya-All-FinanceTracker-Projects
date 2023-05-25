@@ -11,7 +11,7 @@ import {
   fromaccountOptions,
 } from "../../../utils/constants";
 import { useSelector, useDispatch } from "react-redux";
-import { addTransaction,editTransaction } from "../../../redux/slices/transactionsSlice";
+import { addTransaction, editTransaction } from "../../../redux/slices/transactionsSlice";
 import { InputFields } from "../../../components/InputFields";
 import { Selectfields } from "../../../components/Selectfields";
 import { RootState } from "../../../redux/store";
@@ -79,11 +79,11 @@ const schema = yup.object().shape({
 });
 
 
-const FinanceForm : React.FC = () => {
+const FinanceForm: React.FC = () => {
   //const transactionredux = useSelector((state) => state.transaction.value);
   const transactionredux = useSelector((state: RootState) => state.rootReducer.transaction);
 
-  console.log("TRAAA", transactionredux);
+  //console.log("TRAAA", transactionredux);
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -107,54 +107,55 @@ const FinanceForm : React.FC = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<any>({
+  } = useForm<TransactionTypes>({
     resolver: yupResolver(schema),
   });
- 
+
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    const handleImageChange = (e:any) => {
-      const reader = new FileReader();
-      const file = e.target.files[0];
-      if (file) {
-        reader.readAsDataURL(file);
+  const handleImageChange = (e: any) => {
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+    reader.onloadend = (readerEvent: ProgressEvent<FileReader>) => {
+      if (file.type.includes("image")) {
+        const result = readerEvent.target?.result as string;
+        setImagePreview(result);
       }
-        reader.onloadend = (readerEvent:ProgressEvent<FileReader>) => {
-          if(file.type.includes("image")){
-            const result=readerEvent.target?.result as string;
-            setImagePreview(result);
-          }
-          setError("image", {
-            type: "manual",
-            message: "",
-          });
-        };
-       
-      // } else {
-      //   setImagePreview("");
-      // }
-    };
-
-    const getBase64 = (file:any) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-        reader.readAsDataURL(file);
+      setError("image", {
+        type: "manual",
+        message: "",
       });
     };
 
-    const generateId = () => {
-      const existingData = transactionredux;
-      return existingData.value.length + 1;
-    };
-    const removefile = () => {
-      setImagePreview(null);
-      setValue("image", "");
-    };
+    // } else {
+    //   setImagePreview("");
+    // }
+  };
 
-  const onSubmit = async (data:any) => {
+  const getBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const generateId = () => {
+    const existingData = transactionredux;
+    return existingData.value.length + 1;
+  };
+
+  const removefile = () => {
+    setImagePreview(null);
+    setValue("image", "");
+  };
+
+  const onSubmit = async (data: any) => {
     //console.log(data,"sss");
     const imgIsBase64 = typeof data.image === "string";
     //console.log(data);
@@ -163,45 +164,47 @@ const FinanceForm : React.FC = () => {
       data.image = imgPath;
     }
 
-      const val = { ...data };
+    const val = { ...data };
 
-      const newval = {
-        ...formData,
-        //id:val.id,
-        Transactiondate: val.Transactiondate,
-        transactionType: val.transactionType,
-        monthyear: val.monthyear,
-        fromAccount: val.fromAccount,
-        toAccount: val.toAccount,
-        amount: val.amount,
-        image: val.image,
-        notes: val.notes,
-      };
-      if (id) {
-        const existingData = dispatch(editTransaction({ id: newval.id,val }));
-        setformData(existingData);
-        console.log("sandhyaa", existingData)
-        alert("Records updated successfully!!!");
-        navigate("/viewdata");
-      } else {
-        newval.id = generateId();
-        const existingData = dispatch(addTransaction(newval));
-        console.log(existingData,"eeee")
-        setformData(existingData);
-        alert("Records inserted successfully!!!");
-        navigate("/viewdata");
-      }
+    const newval = {
+      ...formData,
+      //id:val.id,
+      Transactiondate: val.Transactiondate,
+      transactionType: val.transactionType,
+      monthyear: val.monthyear,
+      fromAccount: val.fromAccount,
+      toAccount: val.toAccount,
+      amount: val.amount,
+      image: val.image,
+      notes: val.notes,
     };
+    console.log("newvallll",newval);
+    if (id) {
+      const existingData = dispatch(editTransaction({ id: newval.id, val }));
+      setformData(existingData);
+      //console.log("sandhyaa", existingData)
+      alert("Records updated successfully!!!");
+      navigate("/viewdata");
+    } else {
+      newval.id = generateId();
+      //console.log("nnn idd",newval.id);
+      const existingData = dispatch(addTransaction(newval));
+      console.log(existingData, "eeee")
+      setformData(existingData);
+      alert("Records inserted successfully!!!");
+      navigate("/viewdata");
+    }
+  };
 
-    useEffect(() => {
-      if (!id) return;
-      let matched = transactionredux.value.find((obj:any) => obj.id == id);
-      setformData(matched);
-      Object.entries(formData).forEach(([key, value]) => {
-      setValue(key, value);
-      });
-      setImagePreview(formData.image);
-    }, [formData, setValue]);
+  useEffect(() => {
+    if (!id) return;
+    let matched = transactionredux.value.find((obj: any) => obj.id == id);
+    setformData(matched);
+    Object.entries(formData).forEach(([key, value]) => {
+      setValue(key as keyof  TransactionTypes, value as keyof TransactionTypes);
+    });
+    setImagePreview(formData.image);
+  }, [formData, setValue]);
 
   return (
     <div>
@@ -281,9 +284,9 @@ const FinanceForm : React.FC = () => {
               {imagePreview && (
                 <img src={imagePreview} style={{ width: "10%" }} />
               )}
-              {/* {errors.image && (
+              {errors.image && (
                 <p style={{ color: "red" }}>{errors.image.message}</p>
-              )} */}
+              )}
             </div>
           </div>
           <div>

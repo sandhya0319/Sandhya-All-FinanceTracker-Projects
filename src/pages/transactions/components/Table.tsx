@@ -18,6 +18,7 @@ const Table: React.FC<TableProps> = ({ data, handleDelete }) => {
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [searchText, setSearchText] = useState('');
 
+    console.log(data);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -45,14 +46,23 @@ const Table: React.FC<TableProps> = ({ data, handleDelete }) => {
             return data;
         }
 
+    
         const sortedData = [...data];
         sortedData.sort((a, b) => {
-            const valueA = a[sortColumn as keyof TransactionTypes] as string | number;
-            const valueB = b[sortColumn as keyof TransactionTypes] as string | number;
-            if (typeof valueA === 'string' && typeof valueB === 'string') {
+            const valueA = a[sortColumn as keyof TransactionTypes];
+            const valueB = b[sortColumn as keyof TransactionTypes];
+
+            if (typeof valueA === 'number' && typeof valueB === 'number') {
+                return valueA - valueB;
+            } else if (typeof valueA === 'string' && typeof valueB === 'string') {
                 return valueA.localeCompare(valueB);
+            } 
+            // else if (valueA instanceof Date && valueB instanceof Date) {
+            //     return valueA.getTime() - valueB.getTime();
+            // } 
+            else {
+                return 0;
             }
-            return Number(a) - Number(b);
         });
         console.log(sortedData);
         if (sortDirection === 'desc') {
@@ -84,7 +94,6 @@ const Table: React.FC<TableProps> = ({ data, handleDelete }) => {
         return pages;
     };
 
-
     // searching
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value);
@@ -111,7 +120,7 @@ const Table: React.FC<TableProps> = ({ data, handleDelete }) => {
                                 <th onClick={() => handleSort("transactionType", 'string')}> Transaction Type</th>
                                 <th onClick={() => handleSort("fromAccount", 'string')}>From Account</th>
                                 <th onClick={() => handleSort("toAccount", 'string')}>To Account</th>
-                                <th onClick={() => handleSort("amount", 'curruncy')}>Amount</th>
+                                <th onClick={() => handleSort("amount", 'number')}>Amount</th>
                                 <th onClick={() => handleSort("notes", 'string')}>Notes</th>
                                 <th onClick={() => handleSort("receipt", 'file')}>Receipt</th>
                                 <th colSpan={3}>Action</th>
@@ -127,7 +136,6 @@ const Table: React.FC<TableProps> = ({ data, handleDelete }) => {
                                 <td>
                                     <span style={{ fontFamily: 'Arial' }}>&#8377; {Number(row.amount).toLocaleString('en-IN')}</span>
                                 </td>
-                                {/* <td>{row['amount']}</td> */}
                                 <td>{row['notes']}</td>
                                 <td><img src={row['image']} alt='receipt' /></td>
                                 <td>

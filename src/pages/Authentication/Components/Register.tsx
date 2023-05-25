@@ -14,13 +14,6 @@ import { InputFields } from '../../../components/InputFields';
 const schema = yup.object().shape({
   username: yup.string().required("username is required"),
   email: yup.string().email().required("email is required"),
-  // .test("email", "Email already exists", function (value) {
-  //   const storedData = usersredux;
-  //   return (
-  //   storedData.filter((data) => data.email === value).length === 0 ||
-  //   !value
-  //   );
-  //   }),
   password: yup.string().required("password is required").min(4).max(8)
 });
 
@@ -28,8 +21,6 @@ const Register: React.FC = () => {
 
   const usersredux = useSelector((state: RootState) => state.rootReducer.users);
   //console.log(data);
-
-  //console.log("userssss", usersredux);
 
   const dispatch = useDispatch();
 
@@ -47,12 +38,17 @@ const Register: React.FC = () => {
   });
 
   const onSubmit = (data: UsersInterface) => {
-    console.log("data", data);
-    const usersdata = { ...data };  //=>
-    const existsusers = dispatch(addUsers(usersdata));
-    //console.log("exist",existsusers);
-    setTotalUsers(existsusers);
-    navigate("/login");
+    const usersdata = { ...data };
+    const storedData = usersredux;
+    let user = storedData.value.some(elem => elem.email == data.email);
+    if (user) {
+      alert(`User already exist`);
+      navigate("/register");
+    } else {
+      const existsusers = dispatch(addUsers(usersdata));
+      setTotalUsers(existsusers);
+      navigate("/login");
+    }
 
   };
 
