@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {AiFillEdit,AiFillDelete} from 'react-icons/ai'
+import {AiFillEdit,AiFillDelete,AiOutlineArrowUp} from 'react-icons/ai'
 import {GrFormView} from 'react-icons/gr'
 
 const Table = ({ data, handleDelete }) => {
@@ -96,7 +96,7 @@ const Table = ({ data, handleDelete }) => {
                     <table className="table container">
                         <thead className="thead-light">
                             <tr>
-                                <th onClick={() => handleSort("Transactiondate", 'date')}> Transaction Date</th>
+                                <th onClick={() => handleSort("Transactiondate", 'date')}> Transaction</th>
                                 <th onClick={() => handleSort("monthyear", 'string')}>Month Year</th>
                                 <th onClick={() => handleSort("transactionType", 'string')}> Transaction Type</th>
                                 <th onClick={() => handleSort("fromAccount", 'string')}>From Account</th>
@@ -115,7 +115,6 @@ const Table = ({ data, handleDelete }) => {
                                 <td>{row['fromAccount']}</td>
                                 <td>{row['toAccount']}</td>
                                 <td><span style={{fontfamily:"Arial"}}>&#8377; {Number(row['amount']).toLocaleString('en-IN')}</span></td>
-                                {/* <td>{row['amount']}</td> */}
                                 <td>{row['notes']}</td>
                                 <td><img src={row['image']} alt='receipt' /></td>
                                 <td>

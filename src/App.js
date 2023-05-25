@@ -2,12 +2,12 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import FinanceForm from "./pages/transactions/components/FinanceForm";
 import ViewFinanceData from "./pages/transactions/components/ViewFinanceData";
-import ViewSingleData from "./pages/transactions/components/ViewSingleData";
 import { BrowserRouter } from 'react-router-dom';
 import LoginPage from "./pages/Authentication/components/LoginPage";
 import RegisterPage from "./pages/Authentication/components/RegisterPage";
 import {ProtectedRoutes,UnprotectedRoutes} from "./Services/ProtectedRoutes";
 import { ErrorBoundary } from "react-error-boundary";
+import ViewSingleData from "./pages/transactions/components/ViewSingleData";
 //import { Transactioncontext } from "./pages/contexts/Transactioncontext";
 
 function App() {

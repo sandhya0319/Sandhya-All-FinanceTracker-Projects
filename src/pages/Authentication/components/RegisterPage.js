@@ -38,14 +38,16 @@ const RegisterPage = () => {
   const onSubmit = (data) => {
     //console.log(data);
       const usersdata={...data};
-      // if(!usersdata.email)
-      // {
-      //   alert("Email already exists");
-      // }
-      const existsusers = dispatch(addUsers(usersdata));
-      //console.log("exixtsusersss",existsusers);
-      setTotalUsers(existsusers);
-      navigate("/login");
+      const storedData = usersredux;
+      let user = storedData.some(elem => elem.email == data.email);
+      if (user) {
+        alert(`User already exist`);
+        navigate("/register");
+      } else {
+        const existsusers = dispatch(addUsers(usersdata));
+        setTotalUsers(existsusers);
+        navigate("/login");
+      }
   };
 
   return (
